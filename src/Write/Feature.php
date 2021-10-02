@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pheature\Core\Toggle\Write;
 
+use Pheature\Core\Toggle\Write\Event\FeatureWasCreated;
 use JsonSerializable;
 
 use function array_map;
@@ -32,6 +33,7 @@ final class Feature implements JsonSerializable
         foreach ($strategies as $strategy) {
             $this->strategies[$strategy->id()->value()] = $strategy;
         }
+        $this->events[] = new FeatureWasCreated($featureId->value());
     }
 
     /**
