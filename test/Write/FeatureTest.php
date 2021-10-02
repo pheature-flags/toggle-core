@@ -48,7 +48,7 @@ final class FeatureTest extends TestCase
         $feature->enable();
         $this->assertTrue($feature->isEnabled());
         $events = $feature->release();
-        $this->assertCount(0, $events);
+        $this->assertCount(1, $events); // Released FeatureWasCreated event
     }
 
     public function testItShouldBeDisabled(): void
@@ -58,7 +58,7 @@ final class FeatureTest extends TestCase
         $feature->disable();
         $this->assertFalse($feature->isEnabled());
         $events = $feature->release();
-        $this->assertCount(0, $events);
+        $this->assertCount(1, $events); // Released FeatureWasCreated event
     }
 
     public function testItShouldHaveAddedStrategies(): void
@@ -66,7 +66,7 @@ final class FeatureTest extends TestCase
         $feature = $this->getFeatureWithAnStrategy();
         $this->assertCount(1, $feature->strategies());
         $events = $feature->release();
-        $this->assertCount(0, $events);
+        $this->assertCount(1, $events); // Released FeatureWasCreated event
     }
 
     public function testItShouldRemoveAddedStrategies(): void
@@ -77,7 +77,7 @@ final class FeatureTest extends TestCase
         $feature->removeStrategy(StrategyId::fromString(self::STRATEGY_ID));
         $this->assertCount(0, $feature->strategies());
         $events = $feature->release();
-        $this->assertCount(0, $events);
+        $this->assertCount(1, $events); // Released FeatureWasCreated event
     }
 
     private function createFeature(): Feature
