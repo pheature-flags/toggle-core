@@ -13,10 +13,10 @@ final class Feature implements JsonSerializable
 {
     private FeatureId $featureId;
     private bool $enabled;
-    /**
-     * @var Strategy[]
-     */
+    /** @var Strategy[] */
     private array $strategies = [];
+    /** @var array<object>  */
+    private array $events = [];
 
     /**
      * Feature constructor.
@@ -32,6 +32,17 @@ final class Feature implements JsonSerializable
         foreach ($strategies as $strategy) {
             $this->strategies[$strategy->id()->value()] = $strategy;
         }
+    }
+
+    /**
+     * @return object[]
+     */
+    public function release(): array
+    {
+        $events = $this->events;
+        $this->events = [];
+
+        return $events;
     }
 
     public static function withId(FeatureId $featureId): self
