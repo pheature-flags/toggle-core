@@ -66,6 +66,8 @@ final class FeatureTest extends TestCase
         $this->assertCount(2, $events); // Released FeatureWasCreated event and FeatureWasDisabled event
         $featureWasDisabledEvent = $events[1];
         $this->assertInstanceOf(FeatureWasDisabled::class, $featureWasDisabledEvent);
+        $this->assertSame(self::FEATURE_ID, $featureWasDisabledEvent->featureId()->value());
+        $this->assertInstanceOf(DatetimeImmutable::class, $featureWasDisabledEvent->occurredAt());
     }
 
     public function testItShouldSetAnStrategy(): void
