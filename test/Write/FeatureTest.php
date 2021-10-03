@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pheature\Test\Core\Toggle\Write;
 
+use Pheature\Core\Toggle\Write\Event\FeatureWasDisabled;
 use Pheature\Core\Toggle\Write\Feature;
 use Pheature\Core\Toggle\Write\FeatureId;
 use Pheature\Core\Toggle\Write\Strategy;
@@ -62,7 +63,9 @@ final class FeatureTest extends TestCase
         $feature->disable();
         $this->assertFalse($feature->isEnabled());
         $events = $feature->release();
-        $this->assertCount(1, $events); // Released FeatureWasCreated event
+        $this->assertCount(2, $events); // Released FeatureWasCreated event and FeatureWasDisabled event
+        $featureWasDisabledEvent = $events[1];
+        $this->assertInstanceOf(FeatureWasDisabled::class, $featureWasDisabledEvent);
     }
 
     public function testItShouldSetAnStrategy(): void
