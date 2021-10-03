@@ -9,6 +9,8 @@ use Pheature\Core\Toggle\Write\FeatureId;
 use Pheature\Core\Toggle\Write\Strategy;
 use Pheature\Core\Toggle\Write\StrategyId;
 use Pheature\Core\Toggle\Write\StrategyType;
+use Pheature\Core\Toggle\Write\Event\FeatureWasCreated;
+use DatetimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 final class FeatureTest extends TestCase
@@ -20,6 +22,8 @@ final class FeatureTest extends TestCase
     public function testItShouldBeCreatedWithId(): void
     {
         $feature = $this->createFeature();
+
+        $this->assertSame(self::FEATURE_ID, $feature->id());
 
         $this->assertFalse($feature->isEnabled());
     }
@@ -61,23 +65,38 @@ final class FeatureTest extends TestCase
         $this->assertCount(1, $events); // Released FeatureWasCreated event
     }
 
-    public function testItShouldHaveAddedStrategies(): void
+    public function testItShouldSetAnStrategy(): void
     {
-        $feature = $this->getFeatureWithAnStrategy();
+        $strategy = new Strategy(
+            StrategyId::fromString(self::STRATEGY_ID),
+            StrategyType::fromString(self::STRATEGY_TYPE),
+            []
+        );
+        $feature = $this->createFeature();
+        $feature->setStrategy($strategy);
         $this->assertCount(1, $feature->strategies());
         $events = $feature->release();
         $this->assertCount(1, $events); // Released FeatureWasCreated event
     }
 
-    public function testItShouldRemoveAddedStrategies(): void
+    public function testItShouldRemoveAnStrategies(): void
     {
         $feature = $this->getFeatureWithAnStrategy();
         $this->assertCount(1, $feature->strategies());
 
         $feature->removeStrategy(StrategyId::fromString(self::STRATEGY_ID));
         $this->assertCount(0, $feature->strategies());
+    }
+
+    public function testItShouldStoreAFeatureWasCreatedEventWhenNewFeatureIsCreated(): void
+    {
+        $feature = $this->createFeature();
         $events = $feature->release();
         $this->assertCount(1, $events); // Released FeatureWasCreated event
+        $featureWasCreatedEvent = $events[0];
+        $this->assertInstanceOf(FeatureWasCreated::class, $featureWasCreatedEvent);
+        $this->assertSame(self::FEATURE_ID, $featureWasCreatedEvent->featureId()->value());
+        $this->assertInstanceOf(DatetimeImmutable::class, $featureWasCreatedEvent->occurredAt());
     }
 
     private function createFeature(): Feature
@@ -102,9 +121,7 @@ final class FeatureTest extends TestCase
             StrategyType::fromString(self::STRATEGY_TYPE),
             []
         );
-        $feature = $this->createFeature();
-        $feature->setStrategy($strategy);
 
-        return $feature;
+        return new Feature(FeatureId::fromString(self::FEATURE_ID), false, [$strategy]);
     }
 }
