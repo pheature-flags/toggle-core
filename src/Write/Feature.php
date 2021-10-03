@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pheature\Core\Toggle\Write;
 
+use Pheature\Core\Toggle\Write\Event\FeatureWasDisabled;
 use Pheature\Core\Toggle\Write\Event\FeatureWasCreated;
 use JsonSerializable;
 
@@ -72,6 +73,7 @@ final class Feature implements JsonSerializable
     public function disable(): void
     {
         $this->enabled = false;
+        $this->events[] = FeatureWasDisabled::occur($this->featureId->value());
     }
 
     public function isEnabled(): bool
