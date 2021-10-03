@@ -33,7 +33,6 @@ final class Feature implements JsonSerializable
         foreach ($strategies as $strategy) {
             $this->strategies[$strategy->id()->value()] = $strategy;
         }
-        $this->events[] = new FeatureWasCreated($featureId->value());
     }
 
     /**
@@ -49,7 +48,10 @@ final class Feature implements JsonSerializable
 
     public static function withId(FeatureId $featureId): self
     {
-        return new self($featureId, false);
+        $feature = new self($featureId, false);
+        $feature->events[] = FeatureWasCreated::occur($featureId->value());
+
+        return $feature;
     }
 
     public function setStrategy(Strategy $strategy): void

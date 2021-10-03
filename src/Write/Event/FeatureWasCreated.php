@@ -4,31 +4,32 @@ declare(strict_types=1);
 
 namespace Pheature\Core\Toggle\Write\Event;
 
+use Pheature\Core\Toggle\Write\FeatureId;
+use DatetimeImmutable;
+
 final class FeatureWasCreated
 {
-
-    private string $eventType;
-
     private string $featureId;
+    private DatetimeImmutable $occurredAt;
 
-    public function __construct(string $featureId)
+    public function __construct(string $featureId, DatetimeImmutable $occurredAt)
     {
         $this->featureId = $featureId;
-        $this->eventType = "FEATURE_WAS_CREATED";
+        $this->occurredAt = $occurredAt;
     }
 
-    public function eventType(): string
+    public static function occur(string $featureId): self
     {
-        return $this->eventType;
+        return new self($featureId, new DatetimeImmutable());
     }
 
-    public function featureId(): string
+    public function featureId(): FeatureId
     {
-        return $this->featureId;
+        return FeatureId::fromString($this->featureId);
     }
 
-    public static function fromString(string $payload): self
+    public function occurredAt(): DatetimeImmutable
     {
-        return new self($payload);
+        return $this->occurredAt;
     }
 }
