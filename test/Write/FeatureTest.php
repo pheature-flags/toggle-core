@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pheature\Test\Core\Toggle\Write;
 
 use Pheature\Core\Toggle\Write\Event\FeatureWasDisabled;
+use Pheature\Core\Toggle\Write\Event\FeatureWasEnabled;
 use Pheature\Core\Toggle\Write\Feature;
 use Pheature\Core\Toggle\Write\FeatureId;
 use Pheature\Core\Toggle\Write\Strategy;
@@ -53,7 +54,11 @@ final class FeatureTest extends TestCase
         $feature->enable();
         $this->assertTrue($feature->isEnabled());
         $events = $feature->release();
-        $this->assertCount(1, $events); // Released FeatureWasCreated event
+        $this->assertCount(2, $events); // Released FeatureWasCreated event and FeatureWasEnabled event
+        $featureWasEnabledEvent = $events[1];
+        $this->assertInstanceOf(FeatureWasEnabled::class, $featureWasEnabledEvent);
+        $this->assertSame(self::FEATURE_ID, $featureWasEnabledEvent->featureId()->value());
+        $this->assertInstanceOf(DatetimeImmutable::class, $featureWasEnabledEvent->occurredAt());
     }
 
     public function testItShouldBeDisabled(): void
@@ -63,8 +68,11 @@ final class FeatureTest extends TestCase
         $feature->disable();
         $this->assertFalse($feature->isEnabled());
         $events = $feature->release();
-        $this->assertCount(2, $events); // Released FeatureWasCreated event and FeatureWasDisabled event
-        $featureWasDisabledEvent = $events[1];
+        // Released FeatureWasCreated event,
+        //          FeatureWasEnabled event,
+        //          FeatureWasDisabled event
+        $this->assertCount(3, $events);
+        $featureWasDisabledEvent = $events[2];
         $this->assertInstanceOf(FeatureWasDisabled::class, $featureWasDisabledEvent);
         $this->assertSame(self::FEATURE_ID, $featureWasDisabledEvent->featureId()->value());
         $this->assertInstanceOf(DatetimeImmutable::class, $featureWasDisabledEvent->occurredAt());
