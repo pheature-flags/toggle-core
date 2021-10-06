@@ -6,6 +6,7 @@ namespace Pheature\Test\Core\Toggle\Write;
 
 use Pheature\Core\Toggle\Write\Event\FeatureWasDisabled;
 use Pheature\Core\Toggle\Write\Event\FeatureWasEnabled;
+use Pheature\Core\Toggle\Write\Event\FeatureWasRemoved;
 use Pheature\Core\Toggle\Write\Feature;
 use Pheature\Core\Toggle\Write\FeatureId;
 use Pheature\Core\Toggle\Write\Strategy;
@@ -118,6 +119,20 @@ final class FeatureTest extends TestCase
         $featureWasCreatedEvent = $events[0];
         $this->assertSame(self::FEATURE_ID, $featureWasCreatedEvent->featureId()->value());
         $this->assertInstanceOf(DatetimeImmutable::class, $featureWasCreatedEvent->occurredAt());
+    }
+
+    public function testItShouldStoreAFeatureWasRemovedWhenItIsRemoved(): void
+    {
+        $feature = $this->createFeature();
+        $feature->remove();
+
+        $events = $feature->release();
+        $this->assertCount(1, $events);
+        $this->assertEventIsRecorded(FeatureWasRemoved::class, $events);
+
+        $featureWasRemovedEvent = $events[0];
+        $this->assertSame(self::FEATURE_ID, $featureWasRemovedEvent->featureId()->value());
+        $this->assertInstanceOf(DatetimeImmutable::class, $featureWasRemovedEvent->occurredAt());
     }
 
     private function createFeature(?bool $enabled = null, ?array $strategies = null): Feature
