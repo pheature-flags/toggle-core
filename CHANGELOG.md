@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.3](https://github.com/pheature-flags/toggle-core/tree/0.1.3) (2021-10-06)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.1.2...0.1.3)
+
+**Implemented enhancements:**
+
+- Create FeatureWasRemoved event and record it inside Feature Class [\#28](https://github.com/pheature-flags/toggle-core/issues/28)
+- Create FeatureWasEnabled event and dispatch it inside Feature Class [\#19](https://github.com/pheature-flags/toggle-core/issues/19)
+- \[\#28\] Create FeatureWasRemoved event and record it inside Feature Class [\#29](https://github.com/pheature-flags/toggle-core/pull/29) (@xserrat)
+- Add feature was enabled event [\#27](https://github.com/pheature-flags/toggle-core/pull/27) (@vblinden)
+
 ## [0.1.2](https://github.com/pheature-flags/toggle-core/tree/0.1.2) (2021-10-03)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.1.0...0.1.2)
