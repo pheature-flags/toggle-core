@@ -23,7 +23,7 @@ final class FeatureTest extends TestCase
 
     public function testItShouldBeCreatedWithId(): void
     {
-        $feature = $this->createFeature();
+        $feature = Feature::withId(FeatureId::fromString(self::FEATURE_ID));
 
         $this->assertSame(self::FEATURE_ID, $feature->id());
 
@@ -32,7 +32,7 @@ final class FeatureTest extends TestCase
 
     public function testItShouldBeSerializeAsArray(): void
     {
-        $feature = $this->getFeatureWithAnStrategy();
+        $feature = $this->createFeatureWithAnStrategy();
 
         $this->assertSame([
             'feature_id' => self::FEATURE_ID,
@@ -49,13 +49,16 @@ final class FeatureTest extends TestCase
 
     public function testItShouldBeEnabled(): void
     {
-        $feature = $this->createFeature();
+        $feature = $this->createFeature(false);
         $this->assertFalse($feature->isEnabled());
         $feature->enable();
         $this->assertTrue($feature->isEnabled());
+
         $events = $feature->release();
-        $this->assertCount(2, $events); // Released FeatureWasCreated event and FeatureWasEnabled event
-        $featureWasEnabledEvent = $events[1];
+        $this->assertCount(1, $events);
+        $this->assertEventIsRecorded(FeatureWasEnabled::class, $events);
+
+        $featureWasEnabledEvent = $events[0];
         $this->assertInstanceOf(FeatureWasEnabled::class, $featureWasEnabledEvent);
         $this->assertSame(self::FEATURE_ID, $featureWasEnabledEvent->featureId()->value());
         $this->assertInstanceOf(DatetimeImmutable::class, $featureWasEnabledEvent->occurredAt());
@@ -63,17 +66,16 @@ final class FeatureTest extends TestCase
 
     public function testItShouldBeDisabled(): void
     {
-        $feature = $this->getEnabledFeature();
+        $feature = $this->createFeature(true);
         $this->assertTrue($feature->isEnabled());
         $feature->disable();
         $this->assertFalse($feature->isEnabled());
         $events = $feature->release();
-        // Released FeatureWasCreated event,
-        //          FeatureWasEnabled event,
-        //          FeatureWasDisabled event
-        $this->assertCount(3, $events);
-        $featureWasDisabledEvent = $events[2];
-        $this->assertInstanceOf(FeatureWasDisabled::class, $featureWasDisabledEvent);
+
+        $this->assertCount(1, $events);
+        $this->assertEventIsRecorded(FeatureWasDisabled::class, $events);
+
+        $featureWasDisabledEvent = $events[0];
         $this->assertSame(self::FEATURE_ID, $featureWasDisabledEvent->featureId()->value());
         $this->assertInstanceOf(DatetimeImmutable::class, $featureWasDisabledEvent->occurredAt());
     }
@@ -88,46 +90,46 @@ final class FeatureTest extends TestCase
         $feature = $this->createFeature();
         $feature->setStrategy($strategy);
         $this->assertCount(1, $feature->strategies());
+
         $events = $feature->release();
-        $this->assertCount(1, $events); // Released FeatureWasCreated event
+        $this->assertCount(0, $events);
     }
 
     public function testItShouldRemoveAnStrategies(): void
     {
-        $feature = $this->getFeatureWithAnStrategy();
+        $feature = $this->createFeatureWithAnStrategy();
         $this->assertCount(1, $feature->strategies());
 
         $feature->removeStrategy(StrategyId::fromString(self::STRATEGY_ID));
         $this->assertCount(0, $feature->strategies());
+
+        $events = $feature->release();
+        $this->assertCount(0, $events);
     }
 
     public function testItShouldStoreAFeatureWasCreatedEventWhenNewFeatureIsCreated(): void
     {
-        $feature = $this->createFeature();
+        $feature = Feature::withId(FeatureId::fromString(self::FEATURE_ID));
         $events = $feature->release();
-        $this->assertCount(1, $events); // Released FeatureWasCreated event
+
+        $this->assertCount(1, $events);
+        $this->assertEventIsRecorded(FeatureWasCreated::class, $events);
+
         $featureWasCreatedEvent = $events[0];
-        $this->assertInstanceOf(FeatureWasCreated::class, $featureWasCreatedEvent);
         $this->assertSame(self::FEATURE_ID, $featureWasCreatedEvent->featureId()->value());
         $this->assertInstanceOf(DatetimeImmutable::class, $featureWasCreatedEvent->occurredAt());
     }
 
-    private function createFeature(): Feature
+    private function createFeature(?bool $enabled = null, ?array $strategies = null): Feature
     {
-        return Feature::withId(
-            FeatureId::fromString(self::FEATURE_ID)
+        return new Feature(
+            FeatureId::fromString(self::FEATURE_ID),
+            $enabled ?? false,
+            $strategies ?? []
         );
     }
 
-    private function getEnabledFeature(): Feature
-    {
-        $feature = $this->createFeature();
-        $feature->enable();
-
-        return $feature;
-    }
-
-    private function getFeatureWithAnStrategy(): Feature
+    private function createFeatureWithAnStrategy(): Feature
     {
         $strategy = new Strategy(
             StrategyId::fromString(self::STRATEGY_ID),
@@ -135,6 +137,16 @@ final class FeatureTest extends TestCase
             []
         );
 
-        return new Feature(FeatureId::fromString(self::FEATURE_ID), false, [$strategy]);
+        return $this->createFeature(false, [$strategy]);
+    }
+
+    private function assertEventIsRecorded(string $expectedEvent, array $featureEvents): void
+    {
+        $matchedEvents = array_filter(
+            $featureEvents,
+            static fn (object $event) => $expectedEvent === get_class($event)
+        );
+
+        $this->assertNotEmpty($matchedEvents);
     }
 }
