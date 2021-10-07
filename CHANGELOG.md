@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.0](https://github.com/pheature-flags/toggle-core/tree/0.2.0) (2021-10-07)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.1.3...0.2.0)
+
+**Implemented enhancements:**
+
+- Update `FeatureRepository::remove` contract to accept `Feature` instead of `FeatureId` [\#30](https://github.com/pheature-flags/toggle-core/issues/30)
+- \[\#30\] Update FeatureRepository::remove contract to accept Feature instead of FeatureId [\#31](https://github.com/pheature-flags/toggle-core/pull/31) (@xserrat)
+
 ## [0.1.3](https://github.com/pheature-flags/toggle-core/tree/0.1.3) (2021-10-06)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.1.2...0.1.3)
