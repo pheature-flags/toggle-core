@@ -37,7 +37,7 @@ final class Payload
         */
         $payload = json_decode($jsonPayload, true, 16, JSON_THROW_ON_ERROR);
 
-        return new self($payload);
+        return self::fromArray($payload);
     }
 
     /**

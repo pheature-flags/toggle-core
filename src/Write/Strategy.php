@@ -62,8 +62,8 @@ final class Strategy implements JsonSerializable
     {
         return [
             'strategy_id' => $this->strategyId->value(),
-            'strategy_type' => $this->strategyType->value(),
-            'segments' => array_map(static fn(Segment $segment) => $segment->jsonSerialize(), $this->segments),
+            'strategy_type' => $this->type()->value(),
+            'segments' => array_map(static fn(Segment $segment) => $segment->jsonSerialize(), $this->segments()),
         ];
     }
 }
