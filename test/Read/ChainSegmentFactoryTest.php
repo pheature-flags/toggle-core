@@ -30,7 +30,7 @@ final class ChainSegmentFactoryTest extends TestCase
     public function testItShouldBeCreatedWithAtLeastOneSegmentFactoryInstance(): void
     {
         $segmentFactory = $this->createMock(SegmentFactory::class);
-        $segmentFactory->expects(self::once())
+        $segmentFactory->expects(self::atLeastOnce())
             ->method('types')
             ->willReturn([self::SEGMENT_TYPE]);
         $expectedSegment = $this->createMock(Segment::class);
@@ -43,6 +43,6 @@ final class ChainSegmentFactoryTest extends TestCase
         $current = $chainSegmentFactory->create(self::SEGMENT_ID, self::SEGMENT_TYPE, self::PAYLOAD);
 
         self::assertSame($expectedSegment, $current);
+        self::assertSame([self::SEGMENT_TYPE], $chainSegmentFactory->types());
     }
 }
-    
