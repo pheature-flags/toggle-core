@@ -7,7 +7,10 @@ namespace Pheature\Core\Toggle\Read;
 use Pheature\Core\Toggle\Exception\FeatureNotFoundException;
 use Pheature\Core\Toggle\Exception\FeatureNotFoundInChainException;
 
-class ChainFeatureFinder implements FeatureFinder
+use function array_key_exists;
+use function array_values;
+
+final class ChainFeatureFinder implements FeatureFinder
 {
     /** @var FeatureFinder[] */
     private array $featureFinders;
@@ -34,9 +37,14 @@ class ChainFeatureFinder implements FeatureFinder
         $features = [];
 
         foreach ($this->featureFinders as $featureFinder) {
-            $features = array_merge($features, $featureFinder->all());
+            foreach ($featureFinder->all() as $feature) {
+                if (array_key_exists($feature->id(), $features)) {
+                    continue;
+                }
+                $features[$feature->id()] = $feature;
+            }
         }
 
-        return $features;
+        return array_values($features);
     }
 }
