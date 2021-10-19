@@ -94,10 +94,10 @@ class ChainFeatureFinderTest extends TestCase
 
     public function testItShouldReturnAllFeaturesFromAllFinders(): void
     {
-        $firstFeature = $this->createMock(Feature::class);
-        $secondFeature = $this->createMock(Feature::class);
-        $thirdFeature = $this->createMock(Feature::class);
-        $fourthFeature = $this->createMock(Feature::class);
+        $firstFeature = $this->createConfiguredMock(Feature::class, ['id' => 'foo']);
+        $secondFeature = $this->createConfiguredMock(Feature::class, ['id' => 'bar']);
+        $thirdFeature = $this->createConfiguredMock(Feature::class, ['id' => 'fiz']);
+        $fourthFeature = $this->createConfiguredMock(Feature::class, ['id' => 'baz']);
 
         $expectedFeatures = [
             $firstFeature,
@@ -126,6 +126,78 @@ class ChainFeatureFinderTest extends TestCase
         $actual = $chain->all();
 
         self::assertCount(count($expectedFeatures), $actual);
+    }
+
+    public function testItShouldReturnAllFeaturesFromAllFindersWithoutRepeatingItems(): void
+    {
+        $firstFeature = $this->createConfiguredMock(Feature::class, ['id' => 'foo']);
+        $secondFeature = $this->createConfiguredMock(Feature::class, ['id' => 'bar']);
+        $thirdFeature = $this->createConfiguredMock(Feature::class, ['id' => 'fiz']);
+        $fourthFeature = $this->createConfiguredMock(Feature::class, ['id' => 'baz']);
+
+        $expectedFeatures = [
+            $firstFeature,
+            $secondFeature,
+            $thirdFeature,
+            $fourthFeature
+        ];
+
+        $firstFeatureFinder = $this->createMock(FeatureFinder::class);
+        $firstFeatureFinder
+            ->expects(self::once())
+            ->method('all')
+            ->willReturn([$firstFeature, $thirdFeature]);
+
+        $secondFeatureFinder = $this->createMock(FeatureFinder::class);
+        $secondFeatureFinder
+            ->expects(self::once())
+            ->method('all')
+            ->willReturn([$firstFeature, $secondFeature, $fourthFeature]);
+
+        $chain = new ChainFeatureFinder(
+            $firstFeatureFinder,
+            $secondFeatureFinder
+        );
+
+        $actual = $chain->all();
+
+        self::assertCount(count($expectedFeatures), $actual);
+    }
+
+    public function testItShouldReturnAllFeaturesFromAllFindersOrderedByFirstFinderFirst(): void
+    {
+        $firstFeature = $this->createConfiguredMock(Feature::class, ['id' => 'foo']);
+        $secondFeature = $this->createConfiguredMock(Feature::class, ['id' => 'bar']);
+        $thirdFeature = $this->createConfiguredMock(Feature::class, ['id' => 'fiz']);
+        $fourthFeature = $this->createConfiguredMock(Feature::class, ['id' => 'baz']);
+
+        $expectedFeatures = [
+            $firstFeature,
+            $thirdFeature,
+            $secondFeature,
+            $fourthFeature
+        ];
+
+        $firstFeatureFinder = $this->createMock(FeatureFinder::class);
+        $firstFeatureFinder
+            ->expects(self::once())
+            ->method('all')
+            ->willReturn([$firstFeature, $thirdFeature]);
+
+        $secondFeatureFinder = $this->createMock(FeatureFinder::class);
+        $secondFeatureFinder
+            ->expects(self::once())
+            ->method('all')
+            ->willReturn([$firstFeature, $secondFeature, $fourthFeature]);
+
+        $chain = new ChainFeatureFinder(
+            $firstFeatureFinder,
+            $secondFeatureFinder
+        );
+
+        $actual = $chain->all();
+
+        self::assertSame($expectedFeatures, $actual);
     }
 
     public function testItShouldReturnAnEmptyArrayIfNoFeaturesFoundInFinders(): void

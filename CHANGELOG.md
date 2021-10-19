@@ -14,8 +14,6 @@
 
 - Update infection/infection requirement from ^0.23.0 to ^0.23.0 || ^0.25.0 [\#13](https://github.com/pheature-flags/toggle-core/pull/13) ([dependabot[bot]](https://github.com/apps/dependabot))
 
-# Changelog
-
 ## [0.2.0](https://github.com/pheature-flags/toggle-core/tree/0.2.0) (2021-10-07)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.1.3...0.2.0)
