@@ -1,6 +1,15 @@
 # Changelog
 
-## [0.2.1](https://github.com/pheature-flags/toggle-core/tree/0.2.1)
+## [0.2.2](https://github.com/pheature-flags/toggle-core/tree/0.2.2)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.1...0.2.2)
+
+**Implemented enhancements:**
+
+- Refactor merging strategy in Chain finder to avoid duplicates [\#34](https://github.com/pheature-flags/toggle-core/issues/34)
+- \[\#34\] adjust chain finder merging strategy [\#36](https://github.com/pheature-flags/toggle-core/pull/36) ([kpicaza](https://github.com/kpicaza))
+
+## [0.2.1](https://github.com/pheature-flags/toggle-core/tree/0.2.1) (2021-10-10)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.0...0.2.1)
 
