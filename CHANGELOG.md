@@ -1,13 +1,21 @@
 # Changelog
 
-## [0.2.2](https://github.com/pheature-flags/toggle-core/tree/0.2.2)
+## [0.2.3](https://github.com/pheature-flags/toggle-core/tree/0.2.3) (2021-10-26)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.2...0.2.3)
+
+**Fixed bugs:**
+
+- Remove unexisting Laminas ConfigProvider [\#37](https://github.com/pheature-flags/toggle-core/pull/37) (@xserrat)
+
+## [0.2.2](https://github.com/pheature-flags/toggle-core/tree/0.2.2) (2021-10-19)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.1...0.2.2)
 
 **Implemented enhancements:**
 
 - Refactor merging strategy in Chain finder to avoid duplicates [\#34](https://github.com/pheature-flags/toggle-core/issues/34)
-- \[\#34\] adjust chain finder merging strategy [\#36](https://github.com/pheature-flags/toggle-core/pull/36) ([kpicaza](https://github.com/kpicaza))
+- \[\#34\] adjust chain finder merging strategy [\#36](https://github.com/pheature-flags/toggle-core/pull/36) (@kpicaza)
 
 ## [0.2.1](https://github.com/pheature-flags/toggle-core/tree/0.2.1) (2021-10-10)
 
@@ -17,11 +25,11 @@
 
 - Create ChainFeatureRepository [\#32](https://github.com/pheature-flags/toggle-core/issues/32)
 - \[toggle-core\] Add `ChainFeatureFinder` capable of retrieving features from multiple finders [\#14](https://github.com/pheature-flags/toggle-core/issues/14)
-- \[\#32\] create and test ChainFeatureRepository [\#33](https://github.com/pheature-flags/toggle-core/pull/33) ([kpicaza](https://github.com/kpicaza))
+- \[\#32\] create and test ChainFeatureRepository [\#33](https://github.com/pheature-flags/toggle-core/pull/33) (@kpicaza)
 
 **Merged pull requests:**
 
-- Update infection/infection requirement from ^0.23.0 to ^0.23.0 || ^0.25.0 [\#13](https://github.com/pheature-flags/toggle-core/pull/13) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update infection/infection requirement from ^0.23.0 to ^0.23.0 || ^0.25.0 [\#13](https://github.com/pheature-flags/toggle-core/pull/13) (@dependabot[bot])
 
 ## [0.2.0](https://github.com/pheature-flags/toggle-core/tree/0.2.0) (2021-10-07)
 
