@@ -20,7 +20,7 @@ interface Segment extends JsonSerializable
      */
     public function match(array $payload): bool;
     /**
-     * @return array<string, string|array>
+     * @return array<string, string|array<string, mixed>>
      */
     public function toArray(): array;
 }
