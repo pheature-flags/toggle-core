@@ -12,7 +12,7 @@ interface ToggleStrategy extends JsonSerializable
     public function type(): string;
     public function isSatisfiedBy(ConsumerIdentity $identity): bool;
     /**
-     * @return array<string, string|array>
+     * @return array<string, string|int>
      */
     public function toArray(): array;
 }
