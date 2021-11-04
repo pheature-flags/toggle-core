@@ -9,6 +9,7 @@ use Pheature\Core\Toggle\Write\Event\FeatureWasDisabled;
 use Pheature\Core\Toggle\Write\Event\FeatureWasCreated;
 use JsonSerializable;
 use Pheature\Core\Toggle\Write\Event\FeatureWasRemoved;
+use Pheature\Core\Toggle\Write\Event\StrategyWasAdded;
 use Pheature\Core\Toggle\Write\Event\StrategyWasRemoved;
 
 use function array_map;
@@ -61,6 +62,12 @@ final class Feature implements JsonSerializable
     public function setStrategy(Strategy $strategy): void
     {
         $this->strategies[$strategy->id()->value()] = $strategy;
+        $this->events[] = StrategyWasAdded::occur(
+            $this->featureId->value(),
+            $strategy->id()->value(),
+            $strategy->type()->value(),
+            array_map(static fn(Segment $segment) => $segment->jsonSerialize(), $strategy->segments())
+        );
     }
 
     public function removeStrategy(StrategyId $strategyId): void

@@ -8,23 +8,16 @@ use function json_decode;
 
 final class Payload
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<array-key, mixed> */
     private array $criteria;
 
-    /**
-     * @param array<string, mixed> $criteria
-     */
+    /** @param array<array-key, mixed> $criteria */
     private function __construct(array $criteria)
     {
         $this->criteria = $criteria;
     }
 
-    /**
-     * @param array<string, mixed> $criteria
-     * @return static
-     */
+    /** @param array<array-key, mixed> $criteria */
     public static function fromArray(array $criteria): self
     {
         return new self($criteria);
@@ -32,17 +25,13 @@ final class Payload
 
     public static function fromJsonString(string $jsonPayload): self
     {
-        /**
-         * @var array<string, mixed> $payload
-        */
+        /** @var array<array-key, mixed> $payload */
         $payload = json_decode($jsonPayload, true, 16, JSON_THROW_ON_ERROR);
 
         return self::fromArray($payload);
     }
 
-    /**
-     * @return array<string, mixed>
-     */
+    /** @return array<array-key, mixed> */
     public function criteria(): array
     {
         return $this->criteria;

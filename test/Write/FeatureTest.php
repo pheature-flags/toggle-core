@@ -7,9 +7,14 @@ namespace Pheature\Test\Core\Toggle\Write;
 use Pheature\Core\Toggle\Write\Event\FeatureWasDisabled;
 use Pheature\Core\Toggle\Write\Event\FeatureWasEnabled;
 use Pheature\Core\Toggle\Write\Event\FeatureWasRemoved;
+use Pheature\Core\Toggle\Write\Event\StrategyWasAdded;
 use Pheature\Core\Toggle\Write\Event\StrategyWasRemoved;
 use Pheature\Core\Toggle\Write\Feature;
 use Pheature\Core\Toggle\Write\FeatureId;
+use Pheature\Core\Toggle\Write\Payload;
+use Pheature\Core\Toggle\Write\Segment;
+use Pheature\Core\Toggle\Write\SegmentId;
+use Pheature\Core\Toggle\Write\SegmentType;
 use Pheature\Core\Toggle\Write\Strategy;
 use Pheature\Core\Toggle\Write\StrategyId;
 use Pheature\Core\Toggle\Write\StrategyType;
@@ -22,6 +27,8 @@ final class FeatureTest extends TestCase
     private const FEATURE_ID = 'some_feature';
     private const STRATEGY_ID = 'some_strategy';
     private const STRATEGY_TYPE = 'some_strategy_type';
+    private const SEGMENT_ID = 'some_segment';
+    private const SEGMENT_TYPE = 'some_segment_type';
 
     public function testItShouldBeCreatedWithId(): void
     {
@@ -87,14 +94,33 @@ final class FeatureTest extends TestCase
         $strategy = new Strategy(
             StrategyId::fromString(self::STRATEGY_ID),
             StrategyType::fromString(self::STRATEGY_TYPE),
-            []
+            [
+                new Segment(
+                    SegmentId::fromString(self::SEGMENT_ID),
+                    SegmentType::fromString(self::SEGMENT_TYPE),
+                    Payload::fromArray(['foo' => 'bar'])
+                )
+            ]
         );
         $feature = $this->createFeature();
         $feature->setStrategy($strategy);
         $this->assertCount(1, $feature->strategies());
 
         $events = $feature->release();
-        $this->assertCount(0, $events);
+        $this->assertCount(1, $events);
+        $this->assertEventIsRecorded(StrategyWasAdded::class, $events);
+
+        /** @var StrategyWasAdded $strategyWasAdded */
+        $strategyWasAdded = $events[0];
+        $this->assertSame(self::FEATURE_ID, $strategyWasAdded->featureId()->value());
+        $this->assertSame(self::STRATEGY_ID, $strategyWasAdded->strategyId()->value());
+        $this->assertSame(self::STRATEGY_TYPE, $strategyWasAdded->strategyType()->value());
+        /** @var Segment $segment */
+        $segment = $strategyWasAdded->segments()[0];
+        $this->assertSame(self::SEGMENT_ID, $segment->segmentId()->value());
+        $this->assertSame(self::SEGMENT_TYPE, $segment->segmentType()->value());
+        $this->assertSame(['foo' => 'bar'], $segment->payload()->criteria());
+        $this->assertInstanceOf(DatetimeImmutable::class, $strategyWasAdded->occurredAt());
     }
 
     public function testItShouldRemoveAnStrategy(): void
