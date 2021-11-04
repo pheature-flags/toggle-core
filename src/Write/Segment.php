@@ -6,6 +6,10 @@ namespace Pheature\Core\Toggle\Write;
 
 use JsonSerializable;
 
+/**
+ * @phpstan-type WriteSegment array{segment_id: string, segment_type: string, criteria: array<array-key, mixed>}
+ * @psalm-type WriteSegment array{segment_id: string, segment_type: string, criteria: array<array-key, mixed>}
+ */
 final class Segment implements JsonSerializable
 {
     private SegmentId $segmentId;
@@ -35,7 +39,7 @@ final class Segment implements JsonSerializable
     }
 
     /**
-     * @return array<string, string|array<string, mixed>>
+     * @return WriteSegment
      */
     public function jsonSerialize(): array
     {
