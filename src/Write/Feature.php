@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Pheature\Core\Toggle\Write;
 
+use JsonSerializable;
 use Pheature\Core\Toggle\Write\Event\FeatureWasEnabled;
 use Pheature\Core\Toggle\Write\Event\FeatureWasDisabled;
 use Pheature\Core\Toggle\Write\Event\FeatureWasCreated;
-use JsonSerializable;
 use Pheature\Core\Toggle\Write\Event\FeatureWasRemoved;
 use Pheature\Core\Toggle\Write\Event\StrategyWasAdded;
 use Pheature\Core\Toggle\Write\Event\StrategyWasRemoved;
@@ -15,22 +15,23 @@ use Pheature\Core\Toggle\Write\Event\StrategyWasRemoved;
 use function array_map;
 use function array_values;
 
+/**
+ * @psalm-import-type WriteStrategy from Strategy
+ * @psalm-type FeatureEvents array<
+ *   FeatureWasCreated|FeatureWasEnabled|FeatureWasDisabled|StrategyWasAdded|StrategyWasRemoved|FeatureWasRemoved
+ * >
+ * @psalm-type WriteFeature array{feature_id: string, enabled: bool, strategies: array<WriteStrategy>}
+ */
 final class Feature implements JsonSerializable
 {
     private FeatureId $featureId;
     private bool $enabled;
     /** @var Strategy[] */
     private array $strategies = [];
-    /** @var array<object>  */
+    /** @var FeatureEvents  */
     private array $events = [];
 
-    /**
-     * Feature constructor.
-     *
-     * @param FeatureId  $featureId
-     * @param bool       $enabled
-     * @param Strategy[] $strategies
-     */
+    /** @param Strategy[] $strategies */
     public function __construct(FeatureId $featureId, bool $enabled, array $strategies = [])
     {
         $this->featureId = $featureId;
@@ -40,9 +41,7 @@ final class Feature implements JsonSerializable
         }
     }
 
-    /**
-     * @return object[]
-     */
+    /** @return FeatureEvents */
     public function release(): array
     {
         $events = $this->events;
@@ -103,17 +102,13 @@ final class Feature implements JsonSerializable
         return $this->featureId->value();
     }
 
-    /**
-     * @return Strategy[]
-     */
+    /** @return Strategy[] */
     public function strategies(): array
     {
         return array_values($this->strategies);
     }
 
-    /**
-     * @return array<string, mixed>
-     */
+    /** @return WriteFeature */
     public function jsonSerialize(): array
     {
         return [

@@ -9,26 +9,17 @@ use JsonSerializable;
 use function array_map;
 
 /**
- * @phpstan-import-type WriteSegment from Segment
- * @phpstan-type WriteStrategy array{strategy_id: string, strategy_type: string, segments: WriteSegment[]}
+ * @psalm-import-type WriteSegment from Segment
  * @psalm-type WriteStrategy array{strategy_id: string, strategy_type: string, segments: WriteSegment[]}
  */
 final class Strategy implements JsonSerializable
 {
     private StrategyId $strategyId;
     private StrategyType $strategyType;
-    /**
-     * @var Segment[]
-     */
+    /** @var Segment[] */
     private array $segments;
 
-    /**
-     * Strategy constructor.
-     *
-     * @param StrategyId   $strategyId
-     * @param StrategyType $strategyType
-     * @param Segment[]    $segments
-     */
+    /** @param Segment[] $segments */
     public function __construct(StrategyId $strategyId, StrategyType $strategyType, array $segments = [])
     {
         $this->strategyId = $strategyId;

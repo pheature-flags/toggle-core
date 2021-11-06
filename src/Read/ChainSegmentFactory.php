@@ -16,12 +16,6 @@ final class ChainSegmentFactory implements SegmentFactory
         $this->segmentFactories = $segmentFactories;
     }
 
-    /**
-     * @param string $segmentId
-     * @param string $segmentType
-     * @param array<string, mixed> $criteria
-     * @return Segment
-     */
     public function create(string $segmentId, string $segmentType, array $criteria): Segment
     {
         foreach ($this->segmentFactories as $segmentFactory) {
