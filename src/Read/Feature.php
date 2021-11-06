@@ -8,7 +8,7 @@ use JsonSerializable;
 
 /**
  * @psalm-import-type ReadStrategies from ToggleStrategies
- * @psalm-type ReadFeature array{id: string, is_enabled: bool, strategies: array<ReadStrategies>}
+ * @psalm-type ReadFeature array{id: string, enabled: bool, strategies: ReadStrategies}
  */
 interface Feature extends JsonSerializable
 {
