@@ -10,6 +10,9 @@ use function array_map;
 use function array_merge;
 use function in_array;
 
+/**
+ * @psalm-import-type WriteStrategy from \Pheature\Core\Toggle\Write\Strategy
+ */
 final class ChainToggleStrategyFactory implements ToggleStrategyFactory
 {
     private SegmentFactory $segmentFactory;
@@ -22,32 +25,23 @@ final class ChainToggleStrategyFactory implements ToggleStrategyFactory
         $this->toggleStrategyFactories = $toggleStrategyFactories;
     }
 
-    /**
-     * @param array<string, mixed> $strategy
-     * @return ToggleStrategy
-     */
+    /** @param WriteStrategy $strategy */
     public function createFromArray(array $strategy): ToggleStrategy
     {
-        /** @var array<array<string, string|array<string, mixed>>> $segments */
-        $segments = $strategy['segments'];
-        /** @var string $strategyId */
-        $strategyId = $strategy['strategy_id'];
-        /** @var string $strategyType */
-        $strategyType = $strategy['strategy_type'];
-
-        return $this->create($strategyId, $strategyType, new Segments(...array_map(
-            function (array $segment) {
-                /** @var string $segmentId */
-                $segmentId = $segment['segment_id'];
-                /** @var string $segmentType */
-                $segmentType = $segment['segment_type'];
-                /** @var array<string, mixed> $criteria */
-                $criteria = $segment['criteria'];
-
-                return $this->segmentFactory->create($segmentId, $segmentType, $criteria);
-            },
-            $segments
-        )));
+        return $this->create(
+            $strategy['strategy_id'],
+            $strategy['strategy_type'],
+            new Segments(...array_map(
+                function (array $segment): Segment {
+                    return $this->segmentFactory->create(
+                        $segment['segment_id'],
+                        $segment['segment_type'],
+                        $segment['criteria']
+                    );
+                },
+                $strategy['segments']
+            ))
+        );
     }
 
     public function create(string $strategyId, string $strategyType, ?Segments $segments = null): ToggleStrategy

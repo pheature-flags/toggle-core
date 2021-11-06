@@ -11,13 +11,13 @@ use JsonSerializable;
 use function count;
 
 /**
+ * @psalm-import-type ReadStrategy from ToggleStrategy
+ * @psalm-type ReadStrategies array<array-key, ReadStrategy>
  * @implements IteratorAggregate<ToggleStrategy>
  */
 final class ToggleStrategies implements IteratorAggregate, JsonSerializable
 {
-    /**
-     * @var ToggleStrategy[]
-     */
+    /** @var ToggleStrategy[] */
     private array $strategies;
 
     public function __construct(ToggleStrategy ...$strategies)
@@ -30,17 +30,13 @@ final class ToggleStrategies implements IteratorAggregate, JsonSerializable
         return count($this->strategies);
     }
 
-    /**
-     * @return Generator<ToggleStrategy>
-     */
+    /** @return Generator<ToggleStrategy> */
     public function getIterator(): Generator
     {
         yield from $this->strategies;
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return ReadStrategies */
     public function jsonSerialize(): array
     {
         return array_map(

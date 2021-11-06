@@ -6,21 +6,20 @@ namespace Pheature\Core\Toggle\Read;
 
 use JsonSerializable;
 
+/**
+ * @psalm-type SegmentPayload array<mixed>
+ * @psalm-type ReadSegment array{id: string, type: string, criteria: SegmentPayload}
+ */
 interface Segment extends JsonSerializable
 {
     public function id(): string;
     public function type(): string;
-    /**
-     * @return array<string, mixed>
-     */
+    /** @return SegmentPayload */
     public function criteria(): array;
-    /**
-     * @param  array<string, mixed> $payload
-     * @return bool
-     */
+    /** @param SegmentPayload $payload */
     public function match(array $payload): bool;
-    /**
-     * @return array<string, string|array<string, mixed>>
-     */
+    /** @return ReadSegment */
     public function toArray(): array;
+    /** @return ReadSegment */
+    public function jsonSerialize(): array;
 }

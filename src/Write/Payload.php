@@ -6,18 +6,21 @@ namespace Pheature\Core\Toggle\Write;
 
 use function json_decode;
 
+/**
+ * @psalm-type Criteria array<array-key, mixed>
+ */
 final class Payload
 {
-    /** @var array<array-key, mixed> */
+    /** @var Criteria */
     private array $criteria;
 
-    /** @param array<array-key, mixed> $criteria */
+    /** @param Criteria $criteria */
     private function __construct(array $criteria)
     {
         $this->criteria = $criteria;
     }
 
-    /** @param array<array-key, mixed> $criteria */
+    /** @param Criteria $criteria */
     public static function fromArray(array $criteria): self
     {
         return new self($criteria);
@@ -25,13 +28,13 @@ final class Payload
 
     public static function fromJsonString(string $jsonPayload): self
     {
-        /** @var array<array-key, mixed> $payload */
+        /** @var Criteria $payload */
         $payload = json_decode($jsonPayload, true, 16, JSON_THROW_ON_ERROR);
 
         return self::fromArray($payload);
     }
 
-    /** @return array<array-key, mixed> */
+    /** @return Criteria */
     public function criteria(): array
     {
         return $this->criteria;
