@@ -1,6 +1,16 @@
 # Changelog
 
-## [0.2.4](https://github.com/pheature-flags/toggle-core/tree/0.2.4)
+## [0.2.5](https://github.com/pheature-flags/toggle-core/tree/0.2.5) (2021-11-07)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.4...0.2.5)
+
+**Implemented enhancements:**
+
+- Add Psalm Types for arrays [\#45](https://github.com/pheature-flags/toggle-core/issues/45)
+- \[\#45\] fix feature psalm types [\#47](https://github.com/pheature-flags/toggle-core/pull/47) (@kpicaza)
+- \[\#45\] define psalm types for arrays [\#46](https://github.com/pheature-flags/toggle-core/pull/46) (@kpicaza)
+
+## [0.2.4](https://github.com/pheature-flags/toggle-core/tree/0.2.4) (2021-11-06)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.3...0.2.4)
 
