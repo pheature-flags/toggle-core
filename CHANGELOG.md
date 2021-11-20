@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0](https://github.com/pheature-flags/toggle-core/tree/0.3.0) (2021-11-20)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.5...0.3.0)
+
+**Implemented enhancements:**
+
+- \[toggle-core\] Add PHP 8.1 support [\#35](https://github.com/pheature-flags/toggle-core/issues/35)
+- \[\#35\] Add PHP 8.1 support [\#48](https://github.com/pheature-flags/toggle-core/pull/48) (@xserrat)
+
 ## [0.2.5](https://github.com/pheature-flags/toggle-core/tree/0.2.5) (2021-11-07)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.2.4...0.2.5)
