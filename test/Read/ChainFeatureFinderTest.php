@@ -63,7 +63,7 @@ class ChainFeatureFinderTest extends TestCase
 
         $actual = $chain->get(self::FEATURE_ID);
 
-        self::assertSame($expectedFeature, $actual);
+        $this->assertSame($expectedFeature, $actual);
     }
 
     public function testItShouldGetTheFeatureByFeatureIdFromTheSecondFinder(): void
@@ -89,7 +89,7 @@ class ChainFeatureFinderTest extends TestCase
 
         $actual = $chain->get(self::FEATURE_ID);
 
-        self::assertSame($expectedFeature, $actual);
+        $this->assertSame($expectedFeature, $actual);
     }
 
     public function testItShouldReturnAllFeaturesFromAllFinders(): void
@@ -125,7 +125,7 @@ class ChainFeatureFinderTest extends TestCase
 
         $actual = $chain->all();
 
-        self::assertCount(count($expectedFeatures), $actual);
+        $this->assertCount(count($expectedFeatures), $actual);
     }
 
     public function testItShouldReturnAllFeaturesFromAllFindersWithoutRepeatingItems(): void
@@ -161,7 +161,7 @@ class ChainFeatureFinderTest extends TestCase
 
         $actual = $chain->all();
 
-        self::assertCount(count($expectedFeatures), $actual);
+        $this->assertCount(count($expectedFeatures), $actual);
     }
 
     public function testItShouldReturnAllFeaturesFromAllFindersOrderedByFirstFinderFirst(): void
@@ -197,7 +197,7 @@ class ChainFeatureFinderTest extends TestCase
 
         $actual = $chain->all();
 
-        self::assertSame($expectedFeatures, $actual);
+        $this->assertSame($expectedFeatures, $actual);
     }
 
     public function testItShouldReturnAnEmptyArrayIfNoFeaturesFoundInFinders(): void
@@ -221,6 +221,6 @@ class ChainFeatureFinderTest extends TestCase
 
         $actual = $chain->all();
 
-        self::assertSame([], $actual);
+        $this->assertSame([], $actual);
     }
 }

@@ -42,7 +42,7 @@ final class ChainSegmentFactoryTest extends TestCase
 
         $current = $chainSegmentFactory->create(self::SEGMENT_ID, self::SEGMENT_TYPE, self::PAYLOAD);
 
-        self::assertSame($expectedSegment, $current);
-        self::assertSame([self::SEGMENT_TYPE], $chainSegmentFactory->types());
+        $this->assertSame($expectedSegment, $current);
+        $this->assertSame([self::SEGMENT_TYPE], $chainSegmentFactory->types());
     }
 }
