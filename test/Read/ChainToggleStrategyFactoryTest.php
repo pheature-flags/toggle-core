@@ -63,8 +63,8 @@ final class ChainToggleStrategyFactoryTest extends TestCase
             'segments' => []
         ]);
 
-        self::assertSame($expectedStrategy, $current);
-        self::assertSame([self::STRATEGY_TYPE], $chainToggleStrategyFactory->types());
+        $this->assertSame($expectedStrategy, $current);
+        $this->assertSame([self::STRATEGY_TYPE], $chainToggleStrategyFactory->types());
     }
 
     public function testItShouldBeCreatedWithAtLeastOneToggleStrategyFactoryInstanceAndSegments(): void
@@ -91,8 +91,7 @@ final class ChainToggleStrategyFactoryTest extends TestCase
             'segments' => self::SEGMENTS
         ]);
 
-        self::assertSame($expectedStrategy, $current);
-        self::assertSame([self::STRATEGY_TYPE, 'other_type'], $chainToggleStrategyFactory->types());
+        $this->assertSame($expectedStrategy, $current);
+        $this->assertSame([self::STRATEGY_TYPE, 'other_type'], $chainToggleStrategyFactory->types());
     }
 }
-    

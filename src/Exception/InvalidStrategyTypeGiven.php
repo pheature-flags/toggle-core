@@ -8,7 +8,6 @@ use InvalidArgumentException;
 
 final class InvalidStrategyTypeGiven extends InvalidArgumentException
 {
-
     public static function withType(string $strategyType): self
     {
         return new self(sprintf('Unknown toggle strategy type %s given.', $strategyType));
