@@ -1,6 +1,14 @@
 # Changelog
 
-## [0.4.0](https://github.com/pheature-flags/toggle-core/tree/0.4.0)
+## [0.5.0](https://github.com/pheature-flags/toggle-core/tree/0.5.0)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.4.0...0.5.0)
+
+**Merged pull requests:**
+
+- Update php deps reference [\#54](https://github.com/pheature-flags/toggle-core/pull/54) (@kpicaza)
+
+## [0.4.0](https://github.com/pheature-flags/toggle-core/tree/0.4.0) (2022-07-25)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.3.0...0.4.0)
 
