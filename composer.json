@@ -19,7 +19,7 @@
         "php": "^7.4|^8.0|^8.1"
     },
     "require-dev": {
-        "icanhazstring/composer-unused": "^0.7.5",
+        "icanhazstring/composer-unused": "^0.7.5 || ^0.8.0",
         "infection/infection": "^0.25",
         "phpcompatibility/php-compatibility": "^9.3",
         "phpro/grumphp": "^1.0",
