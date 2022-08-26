@@ -30,6 +30,11 @@ final class ToggleStrategies implements IteratorAggregate, JsonSerializable
         return count($this->strategies);
     }
 
+    public function isEmpty(): bool
+    {
+        return $this->strategies === [];
+    }
+
     /** @return Generator<ToggleStrategy> */
     public function getIterator(): Generator
     {
