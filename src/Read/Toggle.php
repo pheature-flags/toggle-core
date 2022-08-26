@@ -6,7 +6,6 @@ namespace Pheature\Core\Toggle\Read;
 
 final class Toggle
 {
-    private const ZERO = 0;
     private FeatureFinder $featureFinder;
 
     public function __construct(FeatureFinder $featureRepository)
@@ -24,7 +23,7 @@ final class Toggle
 
         $strategies = $feature->strategies();
 
-        if (self::ZERO === $strategies->count() || null === $identity) {
+        if ($strategies->isEmpty() || null === $identity) {
             return true;
         }
 
