@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Pheature\Core\Toggle\Write\Event;
 
 use Pheature\Core\Toggle\Write\FeatureId;
-use DatetimeImmutable;
+use DateTimeImmutable;
 use Pheature\Core\Toggle\Write\Payload;
 use Pheature\Core\Toggle\Write\Segment;
 use Pheature\Core\Toggle\Write\SegmentId;
@@ -19,7 +19,7 @@ use Pheature\Core\Toggle\Write\StrategyType;
 final class StrategyWasAdded
 {
     private string $featureId;
-    private DatetimeImmutable $occurredAt;
+    private DateTimeImmutable $occurredAt;
     private string $strategyId;
     private string $strategyType;
     /** @var WriteSegment[]  */
@@ -31,7 +31,7 @@ final class StrategyWasAdded
         string $strategyId,
         string $strategyType,
         array $segments,
-        DatetimeImmutable $occurredAt
+        DateTimeImmutable $occurredAt
     ) {
         $this->featureId = $featureId;
         $this->strategyId = $strategyId;
@@ -43,7 +43,7 @@ final class StrategyWasAdded
     /** @param WriteSegment[] $segments */
     public static function occur(string $featureId, string $strategyId, string $strategyType, array $segments): self
     {
-        return new self($featureId, $strategyId, $strategyType, $segments, new DatetimeImmutable());
+        return new self($featureId, $strategyId, $strategyType, $segments, new DateTimeImmutable());
     }
 
     public function featureId(): FeatureId
@@ -61,7 +61,7 @@ final class StrategyWasAdded
         return StrategyType::fromString($this->strategyType);
     }
 
-    public function occurredAt(): DatetimeImmutable
+    public function occurredAt(): DateTimeImmutable
     {
         return $this->occurredAt;
     }
