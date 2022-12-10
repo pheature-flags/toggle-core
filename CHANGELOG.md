@@ -1,6 +1,19 @@
 # Changelog
 
-## [0.5.0](https://github.com/pheature-flags/toggle-core/tree/0.5.0)
+## [0.7.0](https://github.com/pheature-flags/toggle-core/tree/HEAD)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.5.0...0.7.0)
+
+**Implemented enhancements:**
+
+- Add ToggleStrategies::isEmpty [\#56](https://github.com/pheature-flags/toggle-core/pull/56) (@szepeviktor)
+
+**Merged pull requests:**
+
+- \[\#359\] Add PHP 8.2 support [\#60](https://github.com/pheature-flags/toggle-core/pull/60) (@kpicaza)
+- update dev dependencies [\#57](https://github.com/pheature-flags/toggle-core/pull/57) (@kpicaza)
+
+## [0.5.0](https://github.com/pheature-flags/toggle-core/tree/0.5.0) (2022-08-12)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.4.0...0.5.0)
 
