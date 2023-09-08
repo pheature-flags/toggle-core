@@ -10,6 +10,6 @@ final class InvalidSegmentTypeGiven extends InvalidArgumentException
 {
     public static function withType(string $segmentType): self
     {
-        return new self(sprintf('Unknown toggle strategy type %s given.', $segmentType));
+        return new self(sprintf('Unknown toggle segment type %s given.', $segmentType));
     }
 }
