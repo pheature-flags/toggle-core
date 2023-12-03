@@ -1,6 +1,19 @@
 # Changelog
 
-## [0.7.0](https://github.com/pheature-flags/toggle-core/tree/HEAD)
+## [0.8.0](https://github.com/pheature-flags/toggle-core/tree/HEAD)
+
+[Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.7.0...0.8.0)
+
+**Implemented enhancements:**
+
+- Fix invalid segment exception error message [\#62](https://github.com/pheature-flags/toggle-core/pull/62) (@p0lemic)
+
+**Merged pull requests:**
+
+- update psalm to 5.16 [\#64](https://github.com/pheature-flags/toggle-core/pull/64) (@kpicaza)
+- update php versions support [\#63](https://github.com/pheature-flags/toggle-core/pull/63) (@kpicaza)
+
+## [0.7.0](https://github.com/pheature-flags/toggle-core/tree/0.7.0) (2022-12-10)
 
 [Full Changelog](https://github.com/pheature-flags/toggle-core/compare/0.5.0...0.7.0)
 
