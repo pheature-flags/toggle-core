@@ -94,4 +94,25 @@ final class ChainToggleStrategyFactoryTest extends TestCase
         $this->assertSame($expectedStrategy, $current);
         $this->assertSame([self::STRATEGY_TYPE, 'other_type'], $chainToggleStrategyFactory->types());
     }
+
+    public function testItShouldCorrectlyMergeTheStrategyTypes(): void
+    {
+        $segmentFactory = $this->createMock(SegmentFactory::class);
+        $toggleStrategyFactory = $this->createMock(ToggleStrategyFactory::class);
+        $toggleStrategyFactory->expects(self::once())
+            ->method('types')
+            ->willReturn(['a', 'b']);
+        $otherToggleStrategyFactory = $this->createMock(ToggleStrategyFactory::class);
+        $otherToggleStrategyFactory->expects(self::once())
+            ->method('types')
+            ->willReturn(['c', 'b']);
+
+        $chainToggleStrategyFactory = new ChainToggleStrategyFactory(
+            $segmentFactory,
+            $toggleStrategyFactory,
+            $otherToggleStrategyFactory
+        );
+
+        $this->assertSame(['a', 'b', 'c'], $chainToggleStrategyFactory->types());
+    }
 }

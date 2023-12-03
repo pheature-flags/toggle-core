@@ -45,4 +45,24 @@ final class ChainSegmentFactoryTest extends TestCase
         $this->assertSame($expectedSegment, $current);
         $this->assertSame([self::SEGMENT_TYPE], $chainSegmentFactory->types());
     }
+
+    public function testItShouldCorrectlyMergeTheStrategyTypes(): void
+    {
+        $segmentFactory = $this->createMock(SegmentFactory::class);
+        $segmentFactory->expects(self::once())
+            ->method('types')
+            ->willReturn(['a', 'b']);
+        $otherSegmentFactory = $this->createMock(SegmentFactory::class);
+        $otherSegmentFactory->expects(self::once())
+            ->method('types')
+            ->willReturn(['c', 'b']);
+
+        $chainSegmentFactory = new ChainSegmentFactory(
+            $segmentFactory,
+            $otherSegmentFactory
+        );
+
+        $this->assertSame(['a', 'b', 'c'], $chainSegmentFactory->types());
+    }
+
 }

@@ -29,8 +29,14 @@ final class ChainSegmentFactory implements SegmentFactory
 
     public function types(): array
     {
-        return array_merge(
-            ...array_map(static fn(SegmentFactory $segmentFactory) => $segmentFactory->types(), $this->segmentFactories)
+        /** @psalm-suppress NamedArgumentNotAllowed */
+        return array_unique(
+            array_merge(
+                ...array_map(
+                    static fn(SegmentFactory $segmentFactory) => $segmentFactory->types(),
+                    $this->segmentFactories
+                )
+            )
         );
     }
 }
