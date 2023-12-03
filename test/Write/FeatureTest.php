@@ -155,14 +155,14 @@ final class FeatureTest extends TestCase
 
     public function testItShouldStoreAFeatureWasRemovedWhenItIsRemoved(): void
     {
-        $feature = $this->createFeature();
+        $feature = Feature::withId(FeatureId::fromString(self::FEATURE_ID));
         $feature->remove();
 
         $events = $feature->release();
-        $this->assertCount(1, $events);
+        $this->assertCount(2, $events);
         $this->assertEventIsRecorded(FeatureWasRemoved::class, $events);
 
-        $featureWasRemovedEvent = $events[0];
+        $featureWasRemovedEvent = $events[1];
         $this->assertSame(self::FEATURE_ID, $featureWasRemovedEvent->featureId()->value());
         $this->assertInstanceOf(DatetimeImmutable::class, $featureWasRemovedEvent->occurredAt());
     }

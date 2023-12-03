@@ -57,6 +57,7 @@ final class ChainToggleStrategyFactory implements ToggleStrategyFactory
 
     public function types(): array
     {
+        /** @psalm-suppress NamedArgumentNotAllowed */
         return array_unique(
             array_merge(
                 ...array_map(
